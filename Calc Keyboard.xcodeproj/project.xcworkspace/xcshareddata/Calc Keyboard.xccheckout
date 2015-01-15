@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>9F2C5601-5879-440A-93B9-7DA5E5D9C477</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Calc Keyboard</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>08433FDA8D5166BF8A4FF036449B99784A8A2854</key>
+		<string>https://github.com/barrasso/Calc-Keyboard.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Calc Keyboard.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>08433FDA8D5166BF8A4FF036449B99784A8A2854</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/barrasso/Calc-Keyboard.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>08433FDA8D5166BF8A4FF036449B99784A8A2854</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>08433FDA8D5166BF8A4FF036449B99784A8A2854</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Calc%20Keyboard</string>
+		</dict>
+	</array>
+</dict>
+</plist>
