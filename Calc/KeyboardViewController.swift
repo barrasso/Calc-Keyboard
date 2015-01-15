@@ -129,5 +129,15 @@ class KeyboardViewController: UIInputViewController {
             }
         }
     }
+    
+    @IBAction func didTapInsert()
+    {
+        // add calc display text to insertion point
+        var proxy = textDocumentProxy as UITextDocumentProxy
+        
+        if let input = display?.text as String? {
+            proxy.insertText(input)
+        }
+    }
 
 }
