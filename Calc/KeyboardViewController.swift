@@ -10,31 +10,46 @@ import UIKit
 
 class KeyboardViewController: UIInputViewController {
 
+    // buttons
     @IBOutlet var nextKeyboardButton: UIButton!
-
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
     
-        // Add custom view sizing constraints here
-    }
+    // ui calc view
+    var calcView: UIView!
+    
+    // MARK: View Initialization
 
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
     
-        // Perform custom UI setup here
+        // load custom interface
+        loadInterface()
         
     }
 
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated
     }
+    
+    
+    override func updateViewConstraints()
+    {
+        super.updateViewConstraints()
+        
+        // Add custom view sizing constraints here
+    }
 
-    override func textWillChange(textInput: UITextInput) {
+    // MARK: UIInputView Functions
+    
+    override func textWillChange(textInput: UITextInput)
+    {
         // The app is about to change the document's contents. Perform any preparation here.
     }
 
-    override func textDidChange(textInput: UITextInput) {
+    override func textDidChange(textInput: UITextInput)
+    {
         // The app has just changed the document's contents, the document context has been updated.
     
         var textColor: UIColor
@@ -44,7 +59,22 @@ class KeyboardViewController: UIInputViewController {
         } else {
             textColor = UIColor.blackColor()
         }
-        self.nextKeyboardButton.setTitleColor(textColor, forState: .Normal)
+    }
+    
+    // MARK: UI Functions
+    func loadInterface()
+    {
+        // load nib file
+        var calcNib = UINib(nibName: "Calc", bundle: nil)
+        
+        // instantiate view
+        calcView = calcNib.instantiateWithOwner(self, options: nil)[0] as UIView
+        
+        // add interface to main view
+        view.addSubview(calcView)
+        
+        // copy the background color
+        view.backgroundColor = calcView.backgroundColor
     }
 
 }
