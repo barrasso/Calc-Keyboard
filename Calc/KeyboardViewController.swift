@@ -13,6 +13,12 @@ class KeyboardViewController: UIInputViewController {
     // buttons
     @IBOutlet var nextKeyboardButton: UIButton!
     
+    // labels
+    @IBOutlet var display: UILabel!
+    
+    // flags
+    var shouldClearDisplayBeforeInserting = true
+    
     // ui calc view
     var calcView: UIView!
     
@@ -22,8 +28,9 @@ class KeyboardViewController: UIInputViewController {
     {
         super.viewDidLoad()
     
-        // load custom interface
+        // load custom interface and clear display
         loadInterface()
+        clearDisplay()
         
     }
 
@@ -62,6 +69,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     // MARK: UI Functions
+    
     func loadInterface()
     {
         // load nib file
@@ -75,6 +83,51 @@ class KeyboardViewController: UIInputViewController {
         
         // copy the background color
         view.backgroundColor = calcView.backgroundColor
+        
+        // make button call advanceToNextInput
+        nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
+    }
+    
+    @IBAction func clearDisplay()
+    {
+        display.text = "0"
+        shouldClearDisplayBeforeInserting = true
+    }
+    
+    @IBAction func didTapNumber(number: UIButton)
+    {
+        if shouldClearDisplayBeforeInserting {
+            display.text = ""
+            shouldClearDisplayBeforeInserting = false
+        }
+        
+        // use titleLabel of button to determine which number is tapped
+        if var numberAsString = number.titleLabel?.text {
+            var numberAsNSString = numberAsString as NSString
+            if var oldDisplay = display?.text! {
+               display.text = "\(oldDisplay)\(numberAsNSString.intValue)"
+            } else {
+                display.text = "\(numberAsNSString.intValue)"
+            }
+        }
+    }
+    
+    @IBAction func didTapDot()
+    {
+        // check for dot already in display
+        if let input = display?.text {
+            var hasDot = false
+            for ch in input.unicodeScalars {
+                if ch == "." {
+                    hasDot = true
+                    break
+                }
+            }
+            // if no dot, add one
+            if hasDot == false {
+                display.text = "\(input)."
+            }
+        }
     }
 
 }
