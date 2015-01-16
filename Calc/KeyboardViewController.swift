@@ -8,6 +8,14 @@
 
 import UIKit
 
+enum Operation {
+    case Addition
+    case Multiplication
+    case Subtraction
+    case Division
+    case None
+}
+
 class KeyboardViewController: UIInputViewController {
 
     // buttons
@@ -17,7 +25,12 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var display: UILabel!
     
     // flags
+    var shouldCompute = false
     var shouldClearDisplayBeforeInserting = true
+    
+    // memory vars
+    var internalMemory = 0.0
+    var nextOperation = Operation.None
     
     // ui calc view
     var calcView: UIView!
@@ -91,6 +104,8 @@ class KeyboardViewController: UIInputViewController {
     @IBAction func clearDisplay()
     {
         display.text = "0"
+        internalMemory = 0.0
+        nextOperation = Operation.Addition
         shouldClearDisplayBeforeInserting = true
     }
     
@@ -140,4 +155,98 @@ class KeyboardViewController: UIInputViewController {
         }
     }
 
+    @IBAction func didTapOperation(operation: UIButton)
+    {
+        if shouldCompute {
+            computeLastOperation()
+        }
+        
+        if var op = operation.titleLabel?.text {
+            switch op {
+                case "+":
+                    nextOperation = Operation.Addition
+                case "-":
+                    nextOperation = Operation.Subtraction
+                case "X":
+                    nextOperation = Operation.Multiplication
+                case "/":
+                    nextOperation = Operation.Division
+                default:
+                    nextOperation = Operation.None
+            }
+        }
+    }
+    
+    @IBAction func computeLastOperation()
+    {
+        // remember not to compute if another op is pressed without inputting another number first
+        shouldCompute = false
+        
+        if var input = display?.text {
+            var inputAsDouble = (input as NSString).doubleValue
+            var result = 0.0
+        
+            // apply respective operation
+            switch nextOperation {
+            case .Addition:
+                result = internalMemory + inputAsDouble
+            case .Subtraction:
+                result = internalMemory - inputAsDouble
+            case .Multiplication:
+                result = internalMemory * inputAsDouble
+            case .Division:
+                result = internalMemory / inputAsDouble
+            default:
+                result = 0.0
+            }
+            
+            nextOperation = Operation.None
+            
+            var output = "\(result)"
+            
+            // if the result is an integer, remove decimal
+            if output.hasSuffix(".0") {
+                output = "\(Int(result))"
+            }
+            
+            // truncate result to the last five digits
+            var components = output.componentsSeparatedByString(".")
+            if components.count >= 2 {
+                var beforePoint = components[0]
+                var afterPoint = components[1]
+                if afterPoint.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 5 {
+                    let index: String.Index = advance(afterPoint.startIndex, 5)
+                    afterPoint = afterPoint.substringToIndex(index)
+                }
+                output = beforePoint + "." + afterPoint
+            }
+            
+            // update display
+            display.text = output
+            
+            // save result
+            internalMemory = result
+            
+            // remember to clear display before inserting a new number
+            shouldClearDisplayBeforeInserting = true
+        }
+    }
+}
+
+
+class RoundButton: UIButton {
+    @IBInspectable var cornerRadius: CGFloat = 0 {
+        didSet {
+            layer.cornerRadius = cornerRadius
+        }
+    }
+}
+
+
+class RoundLabel: UILabel {
+    @IBInspectable var cornerRadius: CGFloat = 0 {
+        didSet {
+            layer.cornerRadius = cornerRadius
+        }
+    }
 }
